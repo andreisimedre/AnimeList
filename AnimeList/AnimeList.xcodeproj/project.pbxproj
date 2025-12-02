@@ -94,6 +94,9 @@
 			);
 			mainGroup = F9DBAB962EDF900100E191DB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F9DBABAD2EDF90AC00E191DB /* XCRemoteSwiftPackageReference "apollo-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F9DBABA02EDF900100E191DB /* Products */;
 			projectDirPath = "";
@@ -332,6 +335,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F9DBABAD2EDF90AC00E191DB /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = F9DBAB972EDF900100E191DB /* Project object */;
 }
