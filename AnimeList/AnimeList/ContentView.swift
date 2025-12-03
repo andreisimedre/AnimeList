@@ -18,7 +18,7 @@ struct ContentView: View {
                 .onAppear {
                     Task {
                         do {
-                            let result = try await Network.shared.apollo.fetch(query: AnimeListQuery())
+                            let result = try await Network.shared.apollo.fetch(query: AnimeListQuery(perPage: 1))
 
                             if let description = result.data?.page?.media?.first??.description {
                                 await MainActor.run {

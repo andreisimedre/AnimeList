@@ -1,6 +1,15 @@
-query AnimeListQuery {
-  Page {
-    media {
+query AnimeListQuery($perPage: Int) {
+  Page(perPage: $perPage) {
+    pageInfo {
+      currentPage
+      hasNextPage
+    }
+    ...AnimeDetails
+  }
+}
+
+fragment AnimeDetails on Page {
+  media {
       siteUrl
       title {
         english
@@ -12,5 +21,6 @@ query AnimeListQuery {
         large
       }
     }
-  }
 }
+
+

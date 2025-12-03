@@ -9,7 +9,11 @@ import SwiftUI
 
 struct HomeScreen: View {
     var body: some View {
-        Text("Home screen")
+        Title(title: "Anime List")
+        NowShowingView()
+            .padding(.top, 16)
+
+        Spacer()
     }
 }
 

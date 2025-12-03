@@ -28,9 +28,22 @@
 		F9DBAB9F2EDF900100E191DB /* AnimeList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F9E34B7E2EE04A4800F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F9DBAB9E2EDF900100E191DB /* AnimeList */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F9DBABA12EDF900100E191DB /* AnimeList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F9E34B7E2EE04A4800F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */,
+			);
 			path = AnimeList;
 			sourceTree = "<group>";
 		};
@@ -291,6 +304,7 @@
 				DEVELOPMENT_TEAM = 6PF73RWKFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnimeList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -323,6 +337,7 @@
 				DEVELOPMENT_TEAM = 6PF73RWKFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnimeList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
