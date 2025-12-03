@@ -1,0 +1,80 @@
+//
+//  Coordinator.swift
+//  AnimeList
+//
+//  Created by Andrei Simedre on 03.12.2025.
+//
+
+import Foundation
+import SwiftUI
+internal import Combine
+
+enum AppPages: Hashable, Identifiable {
+    var id: Self { self }
+
+    case homeScreen
+    case bookmarks
+
+}
+
+class Coordinator: ObservableObject {
+    @Published var path: NavigationPath = NavigationPath()
+    @Published var sheet: AppPages?
+    @Published var fullScreenCover: AppPages?
+
+    func push(page: AppPages) {
+        path.append(page)
+    }
+
+    func pop() {
+        path.removeLast()
+    }
+
+    func popToRoot() {
+        path.removeLast(path.count)
+    }
+
+    func presentSheet(_ sheet: AppPages) {
+        self.sheet = sheet
+    }
+
+    func presentFullScreenCover(_ cover: AppPages) {
+        self.fullScreenCover = cover
+    }
+
+    func dismissSheet() {
+        self.sheet = nil
+    }
+
+    func dismissCover() {
+        self.fullScreenCover = nil
+    }
+
+    @ViewBuilder
+    func build(page: AppPages) -> some View {
+        switch page {
+        case .homeScreen: HomeScreen()
+        case .bookmarks: BookmarksScreen()
+        }
+    }
+
+    @ViewBuilder
+    func rootView() -> some View {
+        homeView()
+    }
+
+    @ViewBuilder
+    func homeView() -> some View {
+        TabView {
+            build(page: .homeScreen)
+                .tabItem {
+                    Label("Home", systemImage: "film")
+                }
+            build(page: .bookmarks)
+                .tabItem {
+                    Label("Bookmarks", systemImage: "bookmark.fill")
+                }
+        }
+        .tint(.red)
+    }
+}

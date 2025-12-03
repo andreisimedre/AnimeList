@@ -1,0 +1,16 @@
+query AnimeListQuery {
+  Page {
+    media {
+      siteUrl
+      title {
+        english
+        native
+      }
+      description
+      bannerImage
+      coverImage {
+        large
+      }
+    }
+  }
+}

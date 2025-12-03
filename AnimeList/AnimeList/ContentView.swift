@@ -6,14 +6,34 @@
 //
 
 import SwiftUI
+import AnimeListAPI
+import Apollo
 
 struct ContentView: View {
+    @State private var description: String = ""
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(description)
+                .onAppear {
+                    Task {
+                        do {
+                            let result = try await Network.shared.apollo.fetch(query: AnimeListQuery())
+
+                            if let description = result.data?.page?.media?.first??.description {
+                                await MainActor.run {
+                                    self.description = description
+                                }
+                            }
+
+                            if let errors = result.errors, !errors.isEmpty {
+                                print("GraphQL Errors: \(errors)")
+                            }
+                        } catch {
+                            print("Network Error: \(error)")
+                        }
+                    }
+                }
         }
         .padding()
     }
