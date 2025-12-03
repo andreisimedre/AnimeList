@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F9E34B072EE03A2600F4A168 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = F9E34B062EE03A2600F4A168 /* Apollo */; };
 		F9E34B0D2EE03B9E00F4A168 /* AnimeListAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F9E34B0C2EE03B9E00F4A168 /* AnimeListAPI */; };
+		F9E34B9B2EE0C87500F4A168 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F9E34B9A2EE0C87500F4A168 /* ApolloAPI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9E34B9B2EE0C87500F4A168 /* ApolloAPI in Frameworks */,
 				F9E34B0D2EE03B9E00F4A168 /* AnimeListAPI in Frameworks */,
 				F9E34B072EE03A2600F4A168 /* Apollo in Frameworks */,
 			);
@@ -109,6 +111,7 @@
 			packageProductDependencies = (
 				F9E34B062EE03A2600F4A168 /* Apollo */,
 				F9E34B0C2EE03B9E00F4A168 /* AnimeListAPI */,
+				F9E34B9A2EE0C87500F4A168 /* ApolloAPI */,
 			);
 			productName = AnimeList;
 			productReference = F9DBAB9F2EDF900100E191DB /* AnimeList.app */;
@@ -410,6 +413,11 @@
 		F9E34B0C2EE03B9E00F4A168 /* AnimeListAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AnimeListAPI;
+		};
+		F9E34B9A2EE0C87500F4A168 /* ApolloAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9E34B052EE03A2600F4A168 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloAPI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

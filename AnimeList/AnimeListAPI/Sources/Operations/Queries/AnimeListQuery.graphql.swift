@@ -8,17 +8,25 @@ public struct AnimeListQuery: GraphQLQuery {
   public static let operationName: String = "AnimeListQuery"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query AnimeListQuery($perPage: Int) { Page(perPage: $perPage) { __typename pageInfo { __typename currentPage hasNextPage } ...AnimeDetails } }"#,
+      #"query AnimeListQuery($perPage: Int, $page: Int) { Page(perPage: $perPage, page: $page) { __typename pageInfo { __typename currentPage hasNextPage } media { __typename ...AnimeDetails } } }"#,
       fragments: [AnimeDetails.self]
     ))
 
   public var perPage: GraphQLNullable<Int32>
+  public var page: GraphQLNullable<Int32>
 
-  public init(perPage: GraphQLNullable<Int32>) {
+  public init(
+    perPage: GraphQLNullable<Int32>,
+    page: GraphQLNullable<Int32>
+  ) {
     self.perPage = perPage
+    self.page = page
   }
 
-  @_spi(Unsafe) public var __variables: Variables? { ["perPage": perPage] }
+  @_spi(Unsafe) public var __variables: Variables? { [
+    "perPage": perPage,
+    "page": page
+  ] }
 
   public struct Data: AnimeListAPI.SelectionSet {
     @_spi(Unsafe) public let __data: DataDict
@@ -26,7 +34,10 @@ public struct AnimeListQuery: GraphQLQuery {
 
     @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { AnimeListAPI.Objects.Query }
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
-      .field("Page", Page?.self, arguments: ["perPage": .variable("perPage")]),
+      .field("Page", Page?.self, arguments: [
+        "perPage": .variable("perPage"),
+        "page": .variable("page")
+      ]),
     ] }
     @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
       AnimeListQuery.Data.self
@@ -45,23 +56,15 @@ public struct AnimeListQuery: GraphQLQuery {
       @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("pageInfo", PageInfo?.self),
-        .fragment(AnimeDetails.self),
+        .field("media", [Medium?]?.self),
       ] }
       @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        AnimeListQuery.Data.Page.self,
-        AnimeDetails.self
+        AnimeListQuery.Data.Page.self
       ] }
 
       /// The pagination information
       public var pageInfo: PageInfo? { __data["pageInfo"] }
       public var media: [Medium?]? { __data["media"] }
-
-      public struct Fragments: FragmentContainer {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
-
-        public var animeDetails: AnimeDetails { _toFragment() }
-      }
 
       /// Page.PageInfo
       ///
@@ -86,7 +89,49 @@ public struct AnimeListQuery: GraphQLQuery {
         public var hasNextPage: Bool? { __data["hasNextPage"] }
       }
 
-      public typealias Medium = AnimeDetails.Medium
+      /// Page.Medium
+      ///
+      /// Parent Type: `Media`
+      public struct Medium: AnimeListAPI.SelectionSet {
+        @_spi(Unsafe) public let __data: DataDict
+        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+
+        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { AnimeListAPI.Objects.Media }
+        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .fragment(AnimeDetails.self),
+        ] }
+        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          AnimeListQuery.Data.Page.Medium.self,
+          AnimeDetails.self
+        ] }
+
+        /// The id of the media
+        public var id: Int { __data["id"] }
+        /// A weighted average score of all the user's scores of the media
+        public var averageScore: Int? { __data["averageScore"] }
+        /// The url for the media page on the AniList website
+        public var siteUrl: String? { __data["siteUrl"] }
+        /// The official titles of the media in various languages
+        public var title: Title? { __data["title"] }
+        /// Short description of the media's story and characters
+        public var description: String? { __data["description"] }
+        /// The banner image of the media
+        public var bannerImage: String? { __data["bannerImage"] }
+        /// The cover images of the media
+        public var coverImage: CoverImage? { __data["coverImage"] }
+
+        public struct Fragments: FragmentContainer {
+          @_spi(Unsafe) public let __data: DataDict
+          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public var animeDetails: AnimeDetails { _toFragment() }
+        }
+
+        public typealias Title = AnimeDetails.Title
+
+        public typealias CoverImage = AnimeDetails.CoverImage
+      }
     }
   }
 }

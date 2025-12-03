@@ -9,23 +9,46 @@ import SwiftUI
 import AnimeListAPI
 
 struct PosterCellView: View {
-    let rows = [GridItem(.fixed(100))]
+    let anime: Anime
 
     var body: some View {
-        ScrollView(.horizontal) {
-            LazyHGrid(rows: rows) {
-                    ForEach(0x1f600...0x1f679, id: \.self) { value in
-                        VStack {
-                        Text(String(format: "%x", value))
-//                        Text(emoji(value) + "long text")
-//                            .font(.largeTitle)
-                    }
-                }
+        VStack(alignment: .leading) {
+            AsyncImage(url: URL(string: anime.coverImage ?? "")) { image in
+                image
+                    .resizable()
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+            } placeholder: {
+                Color.gray
+            }
+            .frame(width: 143, height: 212)
+
+            Text(anime.titleEnglish ?? "Unknown title")
+                .font(.custom(FontNames.mulish.rawValue, size: 14))
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+
+            HStack {
+                Image(systemName: "star.fill")
+                    .resizable()
+                    .frame(width: 13, height: 13)
+                    .foregroundStyle(.starYellow)
+                Text("9.1/10 IMDb")
+                    .font(.custom(FontNames.mulish.rawValue, size: 12))
+                    .foregroundColor(.grey)
+
             }
         }
+        .frame(width: 143)
+
     }
 }
 
 #Preview {
-    PosterCellView()
+    let sampleAnime = Anime(
+        id: 0
+        , titleEnglish: "Naruto Shippuden",
+        titleNative: "ナルト- 疾風伝",
+        coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+    )
+    PosterCellView(anime: sampleAnime)
 }

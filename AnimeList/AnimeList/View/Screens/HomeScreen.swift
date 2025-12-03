@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    var body: some View {
-        Title(title: "Anime List")
-        NowShowingView()
-            .padding(.top, 16)
+    @State var homeViewModel = HomeViewModel()
 
-        Spacer()
+    var body: some View {
+        VStack {
+            Title(title: "Anime List")
+            NowAiringView(anime: homeViewModel.animeList)
+                .padding(.top, 16)
+                .task {
+                    await homeViewModel.loadAnime()
+                }
+
+            Spacer()
+        }
+        .padding(.horizontal)
     }
 }
 

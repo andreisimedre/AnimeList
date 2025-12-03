@@ -1,25 +1,27 @@
-query AnimeListQuery($perPage: Int) {
-  Page(perPage: $perPage) {
+query AnimeListQuery($perPage: Int, $page: Int) {
+  Page(perPage: $perPage, page: $page) {
     pageInfo {
       currentPage
       hasNextPage
     }
+    media {
     ...AnimeDetails
+    }
   }
 }
 
-fragment AnimeDetails on Page {
-  media {
-      siteUrl
-      title {
-        english
-        native
-      }
-      description
-      bannerImage
-      coverImage {
-        large
-      }
+fragment AnimeDetails on Media {
+    id
+    averageScore
+    siteUrl
+    title {
+    english
+    native
+    }
+    description
+    bannerImage
+    coverImage {
+    large
     }
 }
 
