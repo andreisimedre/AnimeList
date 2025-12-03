@@ -32,7 +32,7 @@ struct PosterCellView: View {
                     .resizable()
                     .frame(width: 13, height: 13)
                     .foregroundStyle(.starYellow)
-                Text("9.1/10 IMDb")
+                Text("\(String(anime.averageScore ?? 0))/100 Score")
                     .font(.custom(FontNames.mulish.rawValue, size: 12))
                     .foregroundColor(.grey)
 

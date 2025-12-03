@@ -15,7 +15,7 @@ struct Anime: Identifiable {
     let description: String?
     let bannerImage: String?
     let coverImage: String?
-//    let averageScore: Int
+    let averageScore: Int?
 
     init(fragment: AnimeDetails) {
         self.id = fragment.id
@@ -25,7 +25,7 @@ struct Anime: Identifiable {
         self.description = fragment.description
         self.bannerImage = fragment.bannerImage
         self.coverImage = fragment.coverImage?.large
-//        self.averageScore = fragment.avarageScore
+        self.averageScore = fragment.averageScore
     }
 
     init(
@@ -35,7 +35,8 @@ struct Anime: Identifiable {
         titleNative: String = "",
         description: String = "This is a placeholder description for previews.",
         bannerImage: String = "",
-        coverImage: String = ""
+        coverImage: String = "",
+        averageScore: Int? = 85
     ) {
         self.id = id
         self.siteUrl = siteUrl
@@ -44,5 +45,6 @@ struct Anime: Identifiable {
         self.description = description
         self.bannerImage = bannerImage
         self.coverImage = coverImage
+        self.averageScore = averageScore
     }
 }

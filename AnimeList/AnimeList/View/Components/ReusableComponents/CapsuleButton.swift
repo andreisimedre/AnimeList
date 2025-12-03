@@ -12,13 +12,17 @@ struct CapsuleButton: View {
     let font: Font
     let color: Color
 
+    var action: (() -> Void)?
+
     var body: some View {
-        Text(title)
-            .font(font)
-            .foregroundStyle(color)
-            .padding(.vertical, 4)
-            .padding(.horizontal, 8)
-            .background(Capsule().stroke(color, lineWidth: 1))
+        Button(title) {
+            action?()
+        }
+        .font(font)
+        .foregroundStyle(color)
+        .padding(.vertical, 4)
+        .padding(.horizontal, 8)
+        .background(Capsule().stroke(color, lineWidth: 1))
     }
 }
 

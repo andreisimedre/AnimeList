@@ -1,10 +1,10 @@
-query AnimeListQuery($perPage: Int, $page: Int) {
+query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: MediaFormat) {
   Page(perPage: $perPage, page: $page) {
     pageInfo {
       currentPage
       hasNextPage
     }
-    media {
+    media(status: $status, format: $format) {
     ...AnimeDetails
     }
   }

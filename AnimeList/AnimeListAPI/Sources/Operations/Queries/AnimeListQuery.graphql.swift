@@ -8,24 +8,32 @@ public struct AnimeListQuery: GraphQLQuery {
   public static let operationName: String = "AnimeListQuery"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query AnimeListQuery($perPage: Int, $page: Int) { Page(perPage: $perPage, page: $page) { __typename pageInfo { __typename currentPage hasNextPage } media { __typename ...AnimeDetails } } }"#,
+      #"query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: MediaFormat) { Page(perPage: $perPage, page: $page) { __typename pageInfo { __typename currentPage hasNextPage } media(status: $status, format: $format) { __typename ...AnimeDetails } } }"#,
       fragments: [AnimeDetails.self]
     ))
 
   public var perPage: GraphQLNullable<Int32>
   public var page: GraphQLNullable<Int32>
+  public var status: GraphQLNullable<GraphQLEnum<MediaStatus>>
+  public var format: GraphQLNullable<GraphQLEnum<MediaFormat>>
 
   public init(
     perPage: GraphQLNullable<Int32>,
-    page: GraphQLNullable<Int32>
+    page: GraphQLNullable<Int32>,
+    status: GraphQLNullable<GraphQLEnum<MediaStatus>>,
+    format: GraphQLNullable<GraphQLEnum<MediaFormat>>
   ) {
     self.perPage = perPage
     self.page = page
+    self.status = status
+    self.format = format
   }
 
   @_spi(Unsafe) public var __variables: Variables? { [
     "perPage": perPage,
-    "page": page
+    "page": page,
+    "status": status,
+    "format": format
   ] }
 
   public struct Data: AnimeListAPI.SelectionSet {
@@ -56,7 +64,10 @@ public struct AnimeListQuery: GraphQLQuery {
       @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("pageInfo", PageInfo?.self),
-        .field("media", [Medium?]?.self),
+        .field("media", [Medium?]?.self, arguments: [
+          "status": .variable("status"),
+          "format": .variable("format")
+        ]),
       ] }
       @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
         AnimeListQuery.Data.Page.self
