@@ -14,7 +14,7 @@ enum AppPages: Hashable, Identifiable {
 
     case homeScreen
     case bookmarks
-    case details(anime: Anime)
+    case details(animeId: Int)
 
     static func == (lhs: AppPages, rhs: AppPages) -> Bool {
         switch (lhs, rhs) {
@@ -35,8 +35,8 @@ enum AppPages: Hashable, Identifiable {
             hasher.combine(0)
         case .bookmarks:
             hasher.combine(1)
-        case .details(let anime):
-            hasher.combine(anime)
+        case .details(let animeId):
+            hasher.combine(animeId)
         }
     }
 }
@@ -79,8 +79,8 @@ class Coordinator: ObservableObject {
         switch page {
         case .homeScreen: HomeScreen()
         case .bookmarks: BookmarksScreen()
-        case .details(anime: let anime):
-            DetailsScreen(anime: anime)
+        case .details(animeId: let id):
+            DetailsScreen(animeId: id)
         }
     }
 

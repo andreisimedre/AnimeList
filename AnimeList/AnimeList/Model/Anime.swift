@@ -12,7 +12,8 @@ struct CoverImage: Hashable {
     let extraLarge: String?
 }
 
-struct Character: Hashable {
+struct Character: Identifiable, Hashable {
+    let id: Int
     let name: String?
     let imageURL: String?
 }
@@ -28,7 +29,7 @@ struct Anime: Identifiable, Hashable {
     let genres: [String?]?
     let coverImage: CoverImage?
     let isAdult: Bool?
-    let charaters: [Character]?
+    var charaters: [Character]?
 
     func getDuration() -> String {
         guard let duration = duration else { return "Not available" }
@@ -63,7 +64,7 @@ struct Anime: Identifiable, Hashable {
         duration: Int? = 100,
         genres: [String]? = ["Action", "Fantasy", "Adventure"],
         isAdult: Bool? = false,
-        charaters: [Character]? = nil
+        charaters: [Character]? = nil,
     ) {
         self.id = id
         self.siteUrl = siteUrl

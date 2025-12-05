@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct InfoView: View {
-    let anime: Anime
-    
+    let anime: Anime?
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Group {
                     Text("Lenght")
                         .foregroundStyle(.grey)
-                    Text(anime.getDuration())
+                    Text(anime?.getDuration() ?? "0")
                 }
                 .font(.custom(FontNames.mulish.rawValue, size: 12))
             }
@@ -34,7 +34,7 @@ struct InfoView: View {
                 Group {
                     Text("Rating")
                         .foregroundStyle(.grey)
-                    Text(anime.isAdult ?? false ? "R18+" : "PG13")
+                    Text(anime?.isAdult ?? false ? "R18+" : "PG13")
                 }
                 .font(.custom(FontNames.mulish.rawValue, size: 12))
             }

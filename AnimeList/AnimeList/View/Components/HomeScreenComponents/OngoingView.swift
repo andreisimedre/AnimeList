@@ -35,7 +35,7 @@ struct OngoingView: View {
                             ForEach(homeViewModel.ongoingAnimeList) { anime in
                                 OngoingCellView(anime: anime)
                                     .onTapGesture {
-                                        coordinator.push(page: .details(anime: anime))
+                                        coordinator.push(page: .details(animeId: anime.id))
                                     }
                             }
                         }
@@ -49,8 +49,6 @@ struct OngoingView: View {
             }
             .onChange(of: homeViewModel.ongoingAnimeList.count) { oldCount, newCount in
                 if newCount > oldCount {
-                    // The view has been updated with new items.
-                    // We can now safely scroll to the first new item.
                     let firstNewAnimeID = homeViewModel.ongoingAnimeList[oldCount].id
                     withAnimation(.bouncy(duration: 1)) {
                         proxy.scrollTo(firstNewAnimeID, anchor: .leading)

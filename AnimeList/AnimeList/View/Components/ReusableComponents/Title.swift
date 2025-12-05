@@ -12,7 +12,7 @@ struct Title: View {
 
     var body: some View {
         Text(title)
-            .font(Font.custom(FontNames.marriweather.rawValue, size: 16))
+            .font(Font.custom(FontNames.merriweather.rawValue, size: 16))
             .fontWeight(.heavy)
             .foregroundStyle(.darkBlue)
     }

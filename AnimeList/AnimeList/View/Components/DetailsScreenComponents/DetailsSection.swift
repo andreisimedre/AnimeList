@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DetailsSection: View {
-    let anime: Anime
+    let viewModel: DetailsViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ScrollView(.vertical) {
                 HStack(alignment: .top) {
-                    Text(anime.titleEnglish ?? (anime.titleNative ?? "Unknown title"))
+                    Text(viewModel.anime?.titleEnglish ?? (viewModel.anime?.titleNative ?? "Unknown title"))
                         .font(.custom(FontNames.mulish.rawValue, size: 20))
                     Spacer()
                     Image(systemName: "bookmark")
@@ -24,10 +24,10 @@ struct DetailsSection: View {
                 }
                 .padding(.top, 24)
 
-                ScoreView(score: anime.averageScore)
+                ScoreView(score: viewModel.anime?.averageScore)
                     .padding(.bottom, 16)
 
-                if let genres = anime.genres {
+                if let genres = viewModel.anime?.genres {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach(genres, id: \.self) { genre in
@@ -41,45 +41,65 @@ struct DetailsSection: View {
                     .scrollIndicators(.hidden)
                 }
 
-                InfoView(anime: anime)
+                InfoView(anime: viewModel.anime)
                     .padding(.vertical, 16)
                 Title(title: "Description")
                     .padding(.bottom, 16)
-                Text(anime.description ?? "No description available")
+                Text(viewModel.anime?.description ?? "No description available")
                     .font(.custom(FontNames.mulish.rawValue, size: 12))
                     .foregroundStyle(.grey)
                 HStack {
                     Title(title: "Cast")
                     Spacer()
-                    CapsuleButton(title: "See more", font: .custom(FontNames.mulish.rawValue, size: 12), color: .grey)
+                    CapsuleButton(title: "See more", font: .custom(FontNames.mulish.rawValue, size: 12), color: .grey) {
+                        guard viewModel.hasNextPage else { return }
+
+                        Task {
+                            viewModel.needsReload = true
+                            await viewModel.loadAnime()
+                        }
+                    }
                 }
                 .padding(.vertical, 16)
 
-                if let charaters = anime.charaters {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(charaters, id: \.self) { character in
-                                VStack(alignment: .leading, spacing: 0) {
-                                    AsyncImage(url: URL(string: character.imageURL ?? "")) { image in
-                                        image
-                                            .resizable()
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                if let charaters = viewModel.anime?.charaters {
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(charaters) { character in
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        AsyncImage(url: URL(string: character.imageURL ?? "")) { image in
+                                            image
+                                                .resizable()
+                                                .clipShape(RoundedRectangle(cornerRadius: 5))
 
-                                    } placeholder: {
-                                        Image("placeholderImage")
-                                            .resizable()
+                                        } placeholder: {
+                                            Image("placeholderImage")
+                                                .resizable()
+                                        }
+                                        .frame(width: 74, height: 74)
+                                        Text(character.name ?? "Name unavailable")
+                                            .font(.custom(FontNames.mulish.rawValue, size: 12))
+                                            .foregroundStyle(.darkBlue)
+                                        Spacer()
                                     }
-                                    .frame(width: 74, height: 74)
-                                    Text(character.name ?? "Name unavailable")
-                                        .font(.custom(FontNames.mulish.rawValue, size: 12))
-                                        .foregroundStyle(.darkBlue)
-                                    Spacer()
+                                    .frame(width: 74)
                                 }
-                                .frame(width: 74)
+                            }
+                        }
+                        .scrollIndicators(.hidden)
+                        .padding(.bottom, 32)
+                        .onChange(of: viewModel.anime?.charaters?.count) { oldCount, newCount in
+                            guard let newCount = newCount, let oldCount = oldCount else { return }
+                            if newCount > oldCount {
+
+                                let firstNewAnimeID = viewModel.anime?.charaters?[oldCount].id
+                                withAnimation(.bouncy(duration: 1)) {
+                                    proxy.scrollTo(firstNewAnimeID, anchor: .leading)
+                                }
                             }
                         }
                     }
-                    .padding(.bottom, 32)
                 }
             }
             .padding(.horizontal, 24)
@@ -90,13 +110,5 @@ struct DetailsSection: View {
 }
 
 #Preview {
-    let sampleAnime = Anime(
-        id: 0
-        , titleEnglish: "Naruto Shippuden",
-        titleNative: "ナルト- 疾風伝",
-        coverImage: CoverImage(
-            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
-            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
-    )
-    DetailsSection(anime: sampleAnime)
+    DetailsSection(viewModel: DetailsViewModel(animeId: 102))
 }

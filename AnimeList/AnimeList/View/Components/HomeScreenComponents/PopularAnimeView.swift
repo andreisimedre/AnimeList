@@ -39,7 +39,7 @@ struct PopularAnimeView: View {
                             ForEach(homeViewModel.popularAnimeList) { anime in
                                 PopularCellView(anime: anime)
                                     .onTapGesture {
-                                        coordinator.push(page: .details(anime: anime))
+                                        coordinator.push(page: .details(animeId: anime.id))
                                     }
                             }
                         }
@@ -48,8 +48,6 @@ struct PopularAnimeView: View {
                 }
                 .onChange(of: homeViewModel.popularAnimeList.count) { oldCount, newCount in
                     if newCount > oldCount {
-                        // The view has been updated with new items.
-                        // We can now safely scroll to the first new item.
                         let firstNewAnimeID = homeViewModel.popularAnimeList[oldCount].id
                         withAnimation(.bouncy(duration: 1)) {
                             proxy.scrollTo(firstNewAnimeID, anchor: .leading)

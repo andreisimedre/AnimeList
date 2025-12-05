@@ -8,6 +8,6 @@
 enum FontNames: String {
     case mulish = "Mulish"
     case mulishItalic = "Mulish-Italic"
-    case marriweather = "Marriweather"
-    case marriweatherItalic = "Marriweather-Italic"
+    case merriweather = "Merriweather"
+    case merriweatherItalic = "Merriweather-Italic"
 }

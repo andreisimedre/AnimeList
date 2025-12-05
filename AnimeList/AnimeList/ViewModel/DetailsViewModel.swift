@@ -9,6 +9,7 @@ import SwiftUI
 import AnimeListAPI
 
 @Observable class DetailsViewModel {
+    let animeId: Int
     var anime: Anime?
     var needsReload: Bool = false
     var isLoading: Bool = false
@@ -17,19 +18,18 @@ import AnimeListAPI
 
     private(set) var hasNextPage: Bool = false
 
-    init(id: Int) async {
-        await loadAnime(id: id)
+    init(animeId: Int) {
+        self.animeId = animeId
     }
 
-    func loadAnime(id: Int) async {
-        guard anime?.charaters?.isEmpty ?? true || needsReload else { return }
-        needsReload = false
+    func loadAnime() async {
+        guard anime == nil || needsReload else { return }
         isLoading = true
 
         do {
             let nextPage = Int32(currentPage + 1)
             let data = try await Network.shared.apollo.fetchAsync(query: GetAnimeByIdQuery(
-                id: GraphQLNullable<Int32>(integerLiteral: Int32.IntegerLiteralType(id)),
+                id: GraphQLNullable<Int32>(integerLiteral: Int32.IntegerLiteralType(animeId)),
                 page: GraphQLNullable<Int32>(integerLiteral: Int32.IntegerLiteralType(nextPage)),
                 perPage: 20)
 
@@ -38,11 +38,29 @@ import AnimeListAPI
             self.hasNextPage = data.media?.characters?.pageInfo?.hasNextPage ?? false
 
             let animeDetails = data.media?.fragments.animeDetails
-            let charaters = data.media?.characters?.nodes?.compactMap{ $0 }.map({ Character(name: $0.name?.full, imageURL: $0.image?.medium) })
+            let charaters = data.media?.characters?.nodes?.compactMap{ $0 }.map {
+                Character(
+                    id: $0.id,
+                    name: $0.name?.full,
+                    imageURL: $0.image?.medium
+                )
+            }
 
             await MainActor.run {
                 if let animeDetails = animeDetails {
-                    self.anime = Anime(fragment: animeDetails, characters: charaters)
+                    if !needsReload {
+                        self.anime = Anime(fragment: animeDetails, characters: charaters)
+                    } else {
+                        if let charaters = charaters {
+                            for charater in charaters {
+                                if self.anime?.charaters?.contains(where: { $0.id == charater.id }) ?? false {
+                                    continue
+                                }
+                                self.anime?.charaters?.append(charater)
+                            }
+                        }
+                    }
+                    self.needsReload = false
                 }
                 self.isLoading = false
             }
