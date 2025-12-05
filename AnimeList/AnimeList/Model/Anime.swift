@@ -12,6 +12,11 @@ struct CoverImage: Hashable {
     let extraLarge: String?
 }
 
+struct Character: Hashable {
+    let name: String?
+    let imageURL: String?
+}
+
 struct Anime: Identifiable, Hashable {
     let id: Int
     let siteUrl: String?
@@ -23,6 +28,7 @@ struct Anime: Identifiable, Hashable {
     let genres: [String?]?
     let coverImage: CoverImage?
     let isAdult: Bool?
+    let charaters: [Character]?
 
     func getDuration() -> String {
         guard let duration = duration else { return "Not available" }
@@ -31,7 +37,7 @@ struct Anime: Identifiable, Hashable {
         return "\(hours)h \(minutes)min"
     }
 
-    init(fragment: AnimeDetails) {
+    init(fragment: AnimeDetails, characters: [Character]? = nil) {
         self.id = fragment.id
         self.siteUrl = fragment.siteUrl
         self.titleEnglish = fragment.title?.english
@@ -42,6 +48,7 @@ struct Anime: Identifiable, Hashable {
         self.duration = fragment.duration
         self.genres = fragment.genres
         self.isAdult = fragment.isAdult
+        self.charaters = characters
     }
 
     init(
@@ -55,7 +62,8 @@ struct Anime: Identifiable, Hashable {
         averageScore: Int? = 85,
         duration: Int? = 100,
         genres: [String]? = ["Action", "Fantasy", "Adventure"],
-        isAdult: Bool? = false
+        isAdult: Bool? = false,
+        charaters: [Character]? = nil
     ) {
         self.id = id
         self.siteUrl = siteUrl
@@ -67,5 +75,6 @@ struct Anime: Identifiable, Hashable {
         self.duration = duration
         self.genres = genres
         self.isAdult = isAdult
+        self.charaters = charaters
     }
 }

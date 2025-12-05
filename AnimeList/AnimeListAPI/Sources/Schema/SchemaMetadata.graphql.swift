@@ -20,6 +20,10 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
 
   @_spi(Execution) public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
     switch typename {
+    case "Character": return AnimeListAPI.Objects.Character
+    case "CharacterConnection": return AnimeListAPI.Objects.CharacterConnection
+    case "CharacterImage": return AnimeListAPI.Objects.CharacterImage
+    case "CharacterName": return AnimeListAPI.Objects.CharacterName
     case "Media": return AnimeListAPI.Objects.Media
     case "MediaCoverImage": return AnimeListAPI.Objects.MediaCoverImage
     case "MediaTitle": return AnimeListAPI.Objects.MediaTitle

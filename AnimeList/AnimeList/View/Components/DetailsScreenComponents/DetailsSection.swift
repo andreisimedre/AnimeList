@@ -55,6 +55,32 @@ struct DetailsSection: View {
                 }
                 .padding(.vertical, 16)
 
+                if let charaters = anime.charaters {
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(charaters, id: \.self) { character in
+                                VStack(alignment: .leading, spacing: 0) {
+                                    AsyncImage(url: URL(string: character.imageURL ?? "")) { image in
+                                        image
+                                            .resizable()
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+
+                                    } placeholder: {
+                                        Image("placeholderImage")
+                                            .resizable()
+                                    }
+                                    .frame(width: 74, height: 74)
+                                    Text(character.name ?? "Name unavailable")
+                                        .font(.custom(FontNames.mulish.rawValue, size: 12))
+                                        .foregroundStyle(.darkBlue)
+                                    Spacer()
+                                }
+                                .frame(width: 74)
+                            }
+                        }
+                    }
+                    .padding(.bottom, 32)
+                }
             }
             .padding(.horizontal, 24)
             .background(.white)

@@ -8,25 +8,24 @@
 import SwiftUI
 
 struct DetailsScreen: View {
-    let anime: Anime
+    @State var viewModel: DetailsViewModel
+
+    init(viewModel: DetailsViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         VStack(spacing: -100) {
-            Header(imageUrl: anime.coverImage?.extraLarge)
-            DetailsSection(anime: anime)
+            Header(imageUrl: viewModel.anime?.coverImage?.extraLarge)
+            if let anime = viewModel.anime {
+                DetailsSection(anime: anime)
+            }
         }
         .ignoresSafeArea()
     }
 }
 
 #Preview {
-    let sampleAnime = Anime(
-        id: 0
-        , titleEnglish: "Naruto Shippuden",
-        titleNative: "ナルト- 疾風伝",
-        coverImage: CoverImage(
-            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
-            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
-    )
-    DetailsScreen(anime: sampleAnime)
+    let viewModel = DetailsViewModel(id: 102)
+    DetailsScreen(viewModel: viewModel)
 }

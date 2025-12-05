@@ -28,4 +28,24 @@ fragment AnimeDetails on Media {
     }
 }
 
-
+query GetAnimeById($id: Int, $page: Int, $perPage: Int) {
+  Media(id: $id) {
+    ...AnimeDetails
+    characters(page: $page, sort: [ROLE], perPage: $perPage) {
+        pageInfo {
+            currentPage
+      hasNextPage
+      total
+        }
+    nodes {
+      id
+      name {
+        full
+      }
+      image {
+        medium
+      }
+    }
+  }
+  }
+}
