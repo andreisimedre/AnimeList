@@ -69,13 +69,17 @@ struct PopularAnimeView: View {
                 id: 0,
                 titleEnglish: "Naruto Shippuden",
                 titleNative: "ナルト- 疾風伝",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+                coverImage: CoverImage(
+                    large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
+                    extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
             ),
             Anime(
                 id: 1,
                 titleEnglish: "A Very Long Title to Test Wrapping and Layout Behavior",
                 titleNative: "ナルト- 疾風伝",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+                coverImage: CoverImage(
+                    large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
+                    extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
             )
         ]
         return vm

@@ -7,23 +7,28 @@
 
 import AnimeListAPI
 
+struct CoverImage: Hashable {
+    let large: String?
+    let extraLarge: String?
+}
+
 struct Anime: Identifiable, Hashable {
     let id: Int
     let siteUrl: String?
     let titleEnglish: String?
     let titleNative: String?
     let description: String?
-    let bannerImage: String?
-    let coverImage: String?
     let averageScore: Int?
     let duration: Int?
     let genres: [String?]?
+    let coverImage: CoverImage?
+    let isAdult: Bool?
 
     func getDuration() -> String {
         guard let duration = duration else { return "Not available" }
         let hours = duration / 60
         let minutes = duration % 60
-        return "\(hours)h \(minutes)m"
+        return "\(hours)h \(minutes)min"
     }
 
     init(fragment: AnimeDetails) {
@@ -32,11 +37,11 @@ struct Anime: Identifiable, Hashable {
         self.titleEnglish = fragment.title?.english
         self.titleNative = fragment.title?.native
         self.description = fragment.description
-        self.bannerImage = fragment.bannerImage
-        self.coverImage = fragment.coverImage?.large
+        self.coverImage = CoverImage(large: fragment.coverImage?.large, extraLarge: fragment.coverImage?.extraLarge)
         self.averageScore = fragment.averageScore
         self.duration = fragment.duration
         self.genres = fragment.genres
+        self.isAdult = fragment.isAdult
     }
 
     init(
@@ -46,20 +51,21 @@ struct Anime: Identifiable, Hashable {
         titleNative: String = "",
         description: String = "This is a placeholder description for previews.",
         bannerImage: String = "",
-        coverImage: String = "",
+        coverImage: CoverImage? = nil,
         averageScore: Int? = 85,
         duration: Int? = 100,
-        genres: [String]? = ["Action", "Fantasy", "Adventure"]
+        genres: [String]? = ["Action", "Fantasy", "Adventure"],
+        isAdult: Bool? = false
     ) {
         self.id = id
         self.siteUrl = siteUrl
         self.titleEnglish = titleEnglish
         self.titleNative = titleNative
         self.description = description
-        self.bannerImage = bannerImage
         self.coverImage = coverImage
         self.averageScore = averageScore
         self.duration = duration
         self.genres = genres
+        self.isAdult = isAdult
     }
 }

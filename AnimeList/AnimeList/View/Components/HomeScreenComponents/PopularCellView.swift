@@ -12,7 +12,7 @@ struct PopularCellView: View {
 
     var body: some View {
         HStack(alignment: .top) {
-            AsyncImage(url: URL(string: anime.coverImage ?? "")) { image in
+            AsyncImage(url: URL(string: anime.coverImage?.large ?? "")) { image in
                 image
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -70,7 +70,9 @@ struct PopularCellView: View {
         id: 0
         , titleEnglish: "Naruto Shippuden",
         titleNative: "ナルト- 疾風伝",
-        coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+        coverImage: CoverImage(
+            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
+            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
     )
     PopularCellView(anime: sampleAnime)
 }

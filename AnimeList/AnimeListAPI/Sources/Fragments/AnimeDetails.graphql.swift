@@ -6,7 +6,7 @@
 
 public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public static var fragmentDefinition: StaticString {
-    #"fragment AnimeDetails on Media { __typename id averageScore siteUrl duration genres title { __typename english native } description bannerImage coverImage { __typename large } }"#
+    #"fragment AnimeDetails on Media { __typename id isAdult averageScore siteUrl duration genres title { __typename english native } description coverImage { __typename large extraLarge } }"#
   }
 
   @_spi(Unsafe) public let __data: DataDict
@@ -16,13 +16,13 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
     .field("__typename", String.self),
     .field("id", Int.self),
+    .field("isAdult", Bool?.self),
     .field("averageScore", Int?.self),
     .field("siteUrl", String?.self),
     .field("duration", Int?.self),
     .field("genres", [String?]?.self),
     .field("title", Title?.self),
     .field("description", String?.self),
-    .field("bannerImage", String?.self),
     .field("coverImage", CoverImage?.self),
   ] }
   @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
@@ -31,6 +31,8 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
 
   /// The id of the media
   public var id: Int { __data["id"] }
+  /// If the media is intended only for 18+ adult audiences
+  public var isAdult: Bool? { __data["isAdult"] }
   /// A weighted average score of all the user's scores of the media
   public var averageScore: Int? { __data["averageScore"] }
   /// The url for the media page on the AniList website
@@ -43,8 +45,6 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public var title: Title? { __data["title"] }
   /// Short description of the media's story and characters
   public var description: String? { __data["description"] }
-  /// The banner image of the media
-  public var bannerImage: String? { __data["bannerImage"] }
   /// The cover images of the media
   public var coverImage: CoverImage? { __data["coverImage"] }
 
@@ -82,6 +82,7 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
       .field("__typename", String.self),
       .field("large", String?.self),
+      .field("extraLarge", String?.self),
     ] }
     @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
       AnimeDetails.CoverImage.self
@@ -89,5 +90,7 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
 
     /// The cover image url of the media at a large size
     public var large: String? { __data["large"] }
+    /// The cover image url of the media at its largest size. If this size isn't available, large will be provided instead.
+    public var extraLarge: String? { __data["extraLarge"] }
   }
 }

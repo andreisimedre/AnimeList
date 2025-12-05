@@ -124,6 +124,8 @@ public struct AnimeListQuery: GraphQLQuery {
 
         /// The id of the media
         public var id: Int { __data["id"] }
+        /// If the media is intended only for 18+ adult audiences
+        public var isAdult: Bool? { __data["isAdult"] }
         /// A weighted average score of all the user's scores of the media
         public var averageScore: Int? { __data["averageScore"] }
         /// The url for the media page on the AniList website
@@ -136,8 +138,6 @@ public struct AnimeListQuery: GraphQLQuery {
         public var title: Title? { __data["title"] }
         /// Short description of the media's story and characters
         public var description: String? { __data["description"] }
-        /// The banner image of the media
-        public var bannerImage: String? { __data["bannerImage"] }
         /// The cover images of the media
         public var coverImage: CoverImage? { __data["coverImage"] }
 

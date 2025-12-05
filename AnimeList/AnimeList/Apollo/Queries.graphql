@@ -12,18 +12,19 @@ query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: M
 
 fragment AnimeDetails on Media {
     id
+    isAdult
     averageScore
     siteUrl
     duration
     genres
     title {
-    english
-    native
+        english
+        native
     }
     description
-    bannerImage
     coverImage {
-    large
+        large
+        extraLarge
     }
 }
 

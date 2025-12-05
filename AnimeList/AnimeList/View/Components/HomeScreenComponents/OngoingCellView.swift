@@ -13,7 +13,7 @@ struct OngoingCellView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            AsyncImage(url: URL(string: anime.coverImage ?? "")) { image in
+            AsyncImage(url: URL(string: anime.coverImage?.large ?? "")) { image in
                 image
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -28,15 +28,7 @@ struct OngoingCellView: View {
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
 
-            HStack {
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: 13, height: 13)
-                    .foregroundStyle(.starYellow)
-                Text("\(String(anime.averageScore ?? 0))/100 Score")
-                    .font(.custom(FontNames.mulish.rawValue, size: 12))
-                    .foregroundColor(.grey)
-            }
+            ScoreView(score: anime.averageScore)
         }
         .frame(width: 143)
 
@@ -48,7 +40,9 @@ struct OngoingCellView: View {
         id: 0
         , titleEnglish: "Naruto Shippuden",
         titleNative: "ナルト- 疾風伝",
-        coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+        coverImage: CoverImage(
+            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
+            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
     )
     OngoingCellView(anime: sampleAnime)
 }

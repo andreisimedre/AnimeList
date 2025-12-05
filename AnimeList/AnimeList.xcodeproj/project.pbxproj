@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F9E34B7E2EE04A4800F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */ = {
+		F9E34BE62EE332F600F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -43,7 +43,7 @@
 		F9DBABA12EDF900100E191DB /* AnimeList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F9E34B7E2EE04A4800F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */,
+				F9E34BE62EE332F600F4A168 /* Exceptions for "AnimeList" folder in "AnimeList" target */,
 			);
 			path = AnimeList;
 			sourceTree = "<group>";

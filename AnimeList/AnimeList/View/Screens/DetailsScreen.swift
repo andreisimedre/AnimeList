@@ -11,9 +11,11 @@ struct DetailsScreen: View {
     let anime: Anime
 
     var body: some View {
-        HStack {
-            
+        VStack(spacing: -100) {
+            Header(imageUrl: anime.coverImage?.extraLarge)
+            DetailsSection(anime: anime)
         }
+        .ignoresSafeArea()
     }
 }
 
@@ -22,7 +24,9 @@ struct DetailsScreen: View {
         id: 0
         , titleEnglish: "Naruto Shippuden",
         titleNative: "ナルト- 疾風伝",
-        coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
+        coverImage: CoverImage(
+            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
+            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
     )
     DetailsScreen(anime: sampleAnime)
 }
