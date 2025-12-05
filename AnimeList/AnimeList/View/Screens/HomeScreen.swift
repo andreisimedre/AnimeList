@@ -9,18 +9,18 @@ import SwiftUI
 import AnimeListAPI
 
 struct HomeScreen: View {
+    @EnvironmentObject private var coordinator: Coordinator
     @State var homeViewModel = HomeViewModel()
 
     var body: some View {
         VStack {
             Title(title: "Anime List")
-            OngoingView(anime: homeViewModel.animeList, homeViewModel: $homeViewModel)
-                .padding(.top, 16)
-            Spacer()
+            OngoingView(homeViewModel: homeViewModel)
+            PopularAnimeView(homeViewModel: homeViewModel)
         }
         .padding(.horizontal)
         .task {
-            await homeViewModel.loadAnime(status: .releasing)
+            await homeViewModel.loadAllAnime()
         }
     }
 }

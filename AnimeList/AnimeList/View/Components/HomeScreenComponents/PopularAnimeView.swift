@@ -1,39 +1,43 @@
 //
-//  OngoingView.swift
+//  PopularAnimeView.swift
 //  AnimeList
 //
-//  Created by Andrei Simedre on 03.12.2025.
+//  Created by Andrei Simedre on 04.12.2025.
 //
 
 import SwiftUI
 import AnimeListAPI
 
-struct OngoingView: View {
+struct PopularAnimeView: View {
     @EnvironmentObject private var coordinator: Coordinator
     @Bindable var homeViewModel: HomeViewModel
 
     var body: some View {
         ScrollViewReader { proxy in
-            ZStack(alignment: .center) {
+            ZStack {
+                if homeViewModel.isLoadingPopularList {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
                 VStack {
                     HStack {
-                        Title(title: "Ongoing shows")
+                        Title(title: "Popular anime")
                         Spacer()
                         CapsuleButton(title: "See more", font: Font.custom(FontNames.mulish.rawValue, size: 10), color: .grey) {
-                            guard homeViewModel.ongoingHasNextPage else { return }
+                            guard homeViewModel.popularHasNextPage else { return }
                             
                             Task {
-                                homeViewModel.ongoingNeedsReload = true
-                                await homeViewModel.loadOngoingAnime()
+                                homeViewModel.popularNeedsReload = true
+                                await homeViewModel.loadPopularAnime()
                             }
                         }
                     }
                     .padding(.bottom, 16)
                     
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top, spacing: 16) {
-                            ForEach(homeViewModel.ongoingAnimeList) { anime in
-                                OngoingCellView(anime: anime)
+                    ScrollView(.vertical) {
+                        VStack(alignment: .leading, spacing: 16) {
+                            ForEach(homeViewModel.popularAnimeList) { anime in
+                                PopularCellView(anime: anime)
                                     .onTapGesture {
                                         coordinator.push(page: .details(anime: anime))
                                     }
@@ -42,18 +46,14 @@ struct OngoingView: View {
                     }
                     .scrollIndicators(.hidden)
                 }
-                if homeViewModel.isLoadingOngoingList {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                }
-            }
-            .onChange(of: homeViewModel.ongoingAnimeList.count) { oldCount, newCount in
-                if newCount > oldCount {
-                    // The view has been updated with new items.
-                    // We can now safely scroll to the first new item.
-                    let firstNewAnimeID = homeViewModel.ongoingAnimeList[oldCount].id
-                    withAnimation(.bouncy(duration: 1)) {
-                        proxy.scrollTo(firstNewAnimeID, anchor: .leading)
+                .onChange(of: homeViewModel.popularAnimeList.count) { oldCount, newCount in
+                    if newCount > oldCount {
+                        // The view has been updated with new items.
+                        // We can now safely scroll to the first new item.
+                        let firstNewAnimeID = homeViewModel.popularAnimeList[oldCount].id
+                        withAnimation(.bouncy(duration: 1)) {
+                            proxy.scrollTo(firstNewAnimeID, anchor: .leading)
+                        }
                     }
                 }
             }
@@ -64,7 +64,7 @@ struct OngoingView: View {
 #Preview {
     let homeViewModel: HomeViewModel = {
         let vm = HomeViewModel()
-        vm.ongoingAnimeList = [
+        vm.popularAnimeList = [
             Anime(
                 id: 0,
                 titleEnglish: "Naruto Shippuden",
@@ -81,6 +81,6 @@ struct OngoingView: View {
         return vm
     }()
 
-    OngoingView(homeViewModel: homeViewModel)
+    PopularAnimeView(homeViewModel: homeViewModel)
         .environmentObject(Coordinator())
 }

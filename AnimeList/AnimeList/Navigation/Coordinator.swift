@@ -7,14 +7,38 @@
 
 import Foundation
 import SwiftUI
-internal import Combine
+import Combine
 
 enum AppPages: Hashable, Identifiable {
     var id: Self { self }
 
     case homeScreen
     case bookmarks
+    case details(anime: Anime)
 
+    static func == (lhs: AppPages, rhs: AppPages) -> Bool {
+        switch (lhs, rhs) {
+        case (.homeScreen, .homeScreen):
+            return true
+        case (.bookmarks, .bookmarks):
+            return true
+        case (.details(let lhsAnime), .details(let rhsAnime)):
+            return lhsAnime == rhsAnime
+        default:
+            return false
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .homeScreen:
+            hasher.combine(0)
+        case .bookmarks:
+            hasher.combine(1)
+        case .details(let anime):
+            hasher.combine(anime)
+        }
+    }
 }
 
 class Coordinator: ObservableObject {
@@ -55,6 +79,8 @@ class Coordinator: ObservableObject {
         switch page {
         case .homeScreen: HomeScreen()
         case .bookmarks: BookmarksScreen()
+        case .details(anime: let anime):
+            DetailsScreen(anime: anime)
         }
     }
 
@@ -75,6 +101,6 @@ class Coordinator: ObservableObject {
                     Label("Bookmarks", systemImage: "bookmark.fill")
                 }
         }
-        .tint(.red)
+        .tint(.darkBlue)
     }
 }

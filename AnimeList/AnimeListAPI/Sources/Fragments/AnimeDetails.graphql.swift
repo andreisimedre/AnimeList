@@ -6,7 +6,7 @@
 
 public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public static var fragmentDefinition: StaticString {
-    #"fragment AnimeDetails on Media { __typename id averageScore siteUrl title { __typename english native } description bannerImage coverImage { __typename large } }"#
+    #"fragment AnimeDetails on Media { __typename id averageScore siteUrl duration genres title { __typename english native } description bannerImage coverImage { __typename large } }"#
   }
 
   @_spi(Unsafe) public let __data: DataDict
@@ -18,6 +18,8 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
     .field("id", Int.self),
     .field("averageScore", Int?.self),
     .field("siteUrl", String?.self),
+    .field("duration", Int?.self),
+    .field("genres", [String?]?.self),
     .field("title", Title?.self),
     .field("description", String?.self),
     .field("bannerImage", String?.self),
@@ -33,6 +35,10 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public var averageScore: Int? { __data["averageScore"] }
   /// The url for the media page on the AniList website
   public var siteUrl: String? { __data["siteUrl"] }
+  /// The general length of each anime episode in minutes
+  public var duration: Int? { __data["duration"] }
+  /// The genres of the media
+  public var genres: [String?]? { __data["genres"] }
   /// The official titles of the media in various languages
   public var title: Title? { __data["title"] }
   /// Short description of the media's story and characters

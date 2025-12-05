@@ -1,5 +1,5 @@
 //
-//  PosterCellView.swift
+//  OngoingCellView.swift
 //  AnimeList
 //
 //  Created by Andrei Simedre on 03.12.2025.
@@ -8,7 +8,7 @@
 import SwiftUI
 import AnimeListAPI
 
-struct PosterCellView: View {
+struct OngoingCellView: View {
     let anime: Anime
 
     var body: some View {
@@ -18,11 +18,12 @@ struct PosterCellView: View {
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 5))
             } placeholder: {
-                Color.gray
+                Image("placeholderImage")
+                    .resizable()
             }
             .frame(width: 143, height: 212)
 
-            Text(anime.titleEnglish ?? "Unknown title")
+            Text(anime.titleEnglish ?? (anime.titleNative ?? "Unknown title"))
                 .font(.custom(FontNames.mulish.rawValue, size: 14))
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
@@ -35,7 +36,6 @@ struct PosterCellView: View {
                 Text("\(String(anime.averageScore ?? 0))/100 Score")
                     .font(.custom(FontNames.mulish.rawValue, size: 12))
                     .foregroundColor(.grey)
-
             }
         }
         .frame(width: 143)
@@ -50,5 +50,5 @@ struct PosterCellView: View {
         titleNative: "ナルト- 疾風伝",
         coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg"
     )
-    PosterCellView(anime: sampleAnime)
+    OngoingCellView(anime: sampleAnime)
 }

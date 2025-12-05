@@ -7,7 +7,7 @@
 
 import AnimeListAPI
 
-struct Anime: Identifiable {
+struct Anime: Identifiable, Hashable {
     let id: Int
     let siteUrl: String?
     let titleEnglish: String?
@@ -16,6 +16,15 @@ struct Anime: Identifiable {
     let bannerImage: String?
     let coverImage: String?
     let averageScore: Int?
+    let duration: Int?
+    let genres: [String?]?
+
+    func getDuration() -> String {
+        guard let duration = duration else { return "Not available" }
+        let hours = duration / 60
+        let minutes = duration % 60
+        return "\(hours)h \(minutes)m"
+    }
 
     init(fragment: AnimeDetails) {
         self.id = fragment.id
@@ -26,6 +35,8 @@ struct Anime: Identifiable {
         self.bannerImage = fragment.bannerImage
         self.coverImage = fragment.coverImage?.large
         self.averageScore = fragment.averageScore
+        self.duration = fragment.duration
+        self.genres = fragment.genres
     }
 
     init(
@@ -36,7 +47,9 @@ struct Anime: Identifiable {
         description: String = "This is a placeholder description for previews.",
         bannerImage: String = "",
         coverImage: String = "",
-        averageScore: Int? = 85
+        averageScore: Int? = 85,
+        duration: Int? = 100,
+        genres: [String]? = ["Action", "Fantasy", "Adventure"]
     ) {
         self.id = id
         self.siteUrl = siteUrl
@@ -46,5 +59,7 @@ struct Anime: Identifiable {
         self.bannerImage = bannerImage
         self.coverImage = coverImage
         self.averageScore = averageScore
+        self.duration = duration
+        self.genres = genres
     }
 }

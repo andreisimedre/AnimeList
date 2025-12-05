@@ -8,7 +8,7 @@ public struct AnimeListQuery: GraphQLQuery {
   public static let operationName: String = "AnimeListQuery"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: MediaFormat) { Page(perPage: $perPage, page: $page) { __typename pageInfo { __typename currentPage hasNextPage } media(status: $status, format: $format) { __typename ...AnimeDetails } } }"#,
+      #"query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: MediaFormat, $sort: [MediaSort]) { Page(perPage: $perPage, page: $page) { __typename pageInfo { __typename currentPage hasNextPage } media(status: $status, format: $format, sort: $sort) { __typename ...AnimeDetails } } }"#,
       fragments: [AnimeDetails.self]
     ))
 
@@ -16,24 +16,28 @@ public struct AnimeListQuery: GraphQLQuery {
   public var page: GraphQLNullable<Int32>
   public var status: GraphQLNullable<GraphQLEnum<MediaStatus>>
   public var format: GraphQLNullable<GraphQLEnum<MediaFormat>>
+  public var sort: GraphQLNullable<[GraphQLEnum<MediaSort>?]>
 
   public init(
     perPage: GraphQLNullable<Int32>,
     page: GraphQLNullable<Int32>,
     status: GraphQLNullable<GraphQLEnum<MediaStatus>>,
-    format: GraphQLNullable<GraphQLEnum<MediaFormat>>
+    format: GraphQLNullable<GraphQLEnum<MediaFormat>>,
+    sort: GraphQLNullable<[GraphQLEnum<MediaSort>?]>
   ) {
     self.perPage = perPage
     self.page = page
     self.status = status
     self.format = format
+    self.sort = sort
   }
 
   @_spi(Unsafe) public var __variables: Variables? { [
     "perPage": perPage,
     "page": page,
     "status": status,
-    "format": format
+    "format": format,
+    "sort": sort
   ] }
 
   public struct Data: AnimeListAPI.SelectionSet {
@@ -66,7 +70,8 @@ public struct AnimeListQuery: GraphQLQuery {
         .field("pageInfo", PageInfo?.self),
         .field("media", [Medium?]?.self, arguments: [
           "status": .variable("status"),
-          "format": .variable("format")
+          "format": .variable("format"),
+          "sort": .variable("sort")
         ]),
       ] }
       @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
@@ -123,6 +128,10 @@ public struct AnimeListQuery: GraphQLQuery {
         public var averageScore: Int? { __data["averageScore"] }
         /// The url for the media page on the AniList website
         public var siteUrl: String? { __data["siteUrl"] }
+        /// The general length of each anime episode in minutes
+        public var duration: Int? { __data["duration"] }
+        /// The genres of the media
+        public var genres: [String?]? { __data["genres"] }
         /// The official titles of the media in various languages
         public var title: Title? { __data["title"] }
         /// Short description of the media's story and characters
