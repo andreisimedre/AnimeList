@@ -17,7 +17,7 @@ An iOS application for browsing and discovering anime, built with modern SwiftUI
 
 | Home screen | Details screen |
 | :---: | :---: |
-| <img src="https://hosting.photobucket.com/b9e5a2e9-5c32-42cf-9077-9a2c43ba0b73/b17d77f9-730e-413b-b889-9784f3c478c1.png?width=320&height=320&fit=bounds" width="250"> | <img src="https://hosting.photobucket.com/b9e5a2e9-5c32-42cf-9077-9a2c43ba0b73/3b287793-0461-480a-b4de-be4cfec1df5a.png?width=320&height=320&fit=bounds" width="250"> |
+| <img src="https://i.postimg.cc/pV5WDB86/Simulator-Screenshot-i-Phone-17-Pro-2025-12-06-at-13-43-19.png" width="250"> | <img src="https://i.postimg.cc/h4QD90xs/Simulator-Screenshot-i-Phone-17-Pro-2025-12-06-at-12-54-22.png" width="250"> |
 
 ## Tech Stack & Architecture
 
