@@ -84,18 +84,18 @@ struct DetailsSection: View {
                                         Spacer()
                                     }
                                     .frame(width: 74)
+                                    .id(character.id)
                                 }
                             }
                         }
                         .scrollIndicators(.hidden)
                         .padding(.bottom, 32)
                         .onChange(of: viewModel.anime?.charaters?.count) { oldCount, newCount in
-                            guard let newCount = newCount, let oldCount = oldCount else { return }
-                            if newCount > oldCount {
-
-                                let firstNewAnimeID = viewModel.anime?.charaters?[oldCount].id
+                            guard let newCount, let oldCount, newCount > oldCount else { return }
+                            
+                            if let firstNewCharacterID = viewModel.anime?.charaters?[oldCount].id {
                                 withAnimation(.bouncy(duration: 1)) {
-                                    proxy.scrollTo(firstNewAnimeID, anchor: .leading)
+                                    proxy.scrollTo(firstNewCharacterID, anchor: .leading)
                                 }
                             }
                         }
