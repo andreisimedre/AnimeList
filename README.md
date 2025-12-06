@@ -39,12 +39,11 @@ To get the project up and running on your local machine, follow these simple ste
 **1. Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/AnimeList.git
+git clone https://github.com/andreisimedre/AnimeList.git
 cd AnimeList
 ```
-**2. Swich to `develpment` branch**
 
-**3. Build and Run**
+**2. Build and Run**
 Once Xcode has resolved any packages, you can build and run the project.
 
 • Select an iOS Simulator or connect a physical device.
