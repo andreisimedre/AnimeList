@@ -83,6 +83,8 @@ public struct GetAnimeByIdQuery: GraphQLQuery {
       public var duration: Int? { __data["duration"] }
       /// The genres of the media
       public var genres: [String?]? { __data["genres"] }
+      /// Media trailer or advertisement
+      public var trailer: Trailer? { __data["trailer"] }
       /// The official titles of the media in various languages
       public var title: Title? { __data["title"] }
       /// Short description of the media's story and characters
@@ -210,6 +212,8 @@ public struct GetAnimeByIdQuery: GraphQLQuery {
           }
         }
       }
+
+      public typealias Trailer = AnimeDetails.Trailer
 
       public typealias Title = AnimeDetails.Title
 

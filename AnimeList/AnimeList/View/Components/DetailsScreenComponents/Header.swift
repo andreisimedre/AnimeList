@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct Header: View {
-    let imageUrl: String?
+    let anime: Anime
 
     var body: some View {
         ZStack {
-            AsyncImage(url: URL(string: imageUrl ?? "")) { image in
-                image
-                    .resizable()
-            } placeholder: {
-                Color.grey
-            }
-            .frame(height: 375)
+            if let trailerImageUrl = URL(string: anime.trailerThumbnail ?? (anime.coverImage?.extraLarge ?? "")) {
+                AsyncImage(url: trailerImageUrl) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Color.grey
+                }
+                .frame(height: 375)
 
-            Image("play")
+                if anime.trailerUrl != nil {
+                    Image("play")
+                }
+            }
         }
     }
 }
@@ -35,5 +39,5 @@ struct Header: View {
             large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b203006-lrK1C1awSLUb.jpg",
             extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b203006-lrK1C1awSLUb.jpg")
     )
-    Header(imageUrl: sampleAnime.coverImage?.extraLarge)
+    Header(anime: sampleAnime)
 }

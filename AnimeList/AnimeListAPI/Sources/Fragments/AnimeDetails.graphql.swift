@@ -6,7 +6,7 @@
 
 public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public static var fragmentDefinition: StaticString {
-    #"fragment AnimeDetails on Media { __typename id isAdult averageScore siteUrl duration genres title { __typename english native } description coverImage { __typename large extraLarge } }"#
+    #"fragment AnimeDetails on Media { __typename id isAdult averageScore siteUrl duration genres trailer { __typename id site thumbnail } title { __typename english native } description coverImage { __typename large extraLarge } }"#
   }
 
   @_spi(Unsafe) public let __data: DataDict
@@ -21,6 +21,7 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
     .field("siteUrl", String?.self),
     .field("duration", Int?.self),
     .field("genres", [String?]?.self),
+    .field("trailer", Trailer?.self),
     .field("title", Title?.self),
     .field("description", String?.self),
     .field("coverImage", CoverImage?.self),
@@ -41,12 +42,40 @@ public struct AnimeDetails: AnimeListAPI.SelectionSet, Fragment {
   public var duration: Int? { __data["duration"] }
   /// The genres of the media
   public var genres: [String?]? { __data["genres"] }
+  /// Media trailer or advertisement
+  public var trailer: Trailer? { __data["trailer"] }
   /// The official titles of the media in various languages
   public var title: Title? { __data["title"] }
   /// Short description of the media's story and characters
   public var description: String? { __data["description"] }
   /// The cover images of the media
   public var coverImage: CoverImage? { __data["coverImage"] }
+
+  /// Trailer
+  ///
+  /// Parent Type: `MediaTrailer`
+  public struct Trailer: AnimeListAPI.SelectionSet {
+    @_spi(Unsafe) public let __data: DataDict
+    @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+
+    @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { AnimeListAPI.Objects.MediaTrailer }
+    @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+      .field("__typename", String.self),
+      .field("id", String?.self),
+      .field("site", String?.self),
+      .field("thumbnail", String?.self),
+    ] }
+    @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+      AnimeDetails.Trailer.self
+    ] }
+
+    /// The trailer video id
+    public var id: String? { __data["id"] }
+    /// The site the video is hosted by (Currently either youtube or dailymotion)
+    public var site: String? { __data["site"] }
+    /// The url for the thumbnail image of the video
+    public var thumbnail: String? { __data["thumbnail"] }
+  }
 
   /// Title
   ///

@@ -6,6 +6,7 @@
 //
 
 import AnimeListAPI
+import Foundation
 
 struct CoverImage: Hashable {
     let large: String?
@@ -30,6 +31,8 @@ struct Anime: Identifiable, Hashable {
     let coverImage: CoverImage?
     let isAdult: Bool?
     var charaters: [Character]?
+    let trailerUrl: URL?
+    let trailerThumbnail: String?
 
     func getDuration() -> String {
         guard let duration = duration else { return "Not available" }
@@ -43,13 +46,38 @@ struct Anime: Identifiable, Hashable {
         self.siteUrl = fragment.siteUrl
         self.titleEnglish = fragment.title?.english
         self.titleNative = fragment.title?.native
-        self.description = fragment.description
+        self.description = fragment.description?.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
         self.coverImage = CoverImage(large: fragment.coverImage?.large, extraLarge: fragment.coverImage?.extraLarge)
         self.averageScore = fragment.averageScore
         self.duration = fragment.duration
         self.genres = fragment.genres
         self.isAdult = fragment.isAdult
         self.charaters = characters
+
+        if let trailer = fragment.trailer,
+           let id = trailer.id,
+           let site = trailer.site {
+            self.trailerThumbnail = trailer.thumbnail
+
+            // Build the URL based on the specific site
+            switch site.lowercased() {
+            case "youtube":
+                // Standard YouTube Watch URL
+                self.trailerUrl = URL(string: "https://www.youtube.com/watch?v=\(id)")
+
+                // Note: If you want to embed it in a WebView, use:
+                // "https://www.youtube.com/embed/\(id)"
+
+            case "dailymotion":
+                self.trailerUrl = URL(string: "https://www.dailymotion.com/video/\(id)")
+
+            default:
+                self.trailerUrl = nil
+            }
+        } else {
+            self.trailerUrl = nil
+            self.trailerThumbnail = nil
+        }
     }
 
     init(
@@ -65,6 +93,8 @@ struct Anime: Identifiable, Hashable {
         genres: [String]? = ["Action", "Fantasy", "Adventure"],
         isAdult: Bool? = false,
         charaters: [Character]? = nil,
+        trailerUrl: URL? = nil,
+        trailerThumbnail: String? = nil
     ) {
         self.id = id
         self.siteUrl = siteUrl
@@ -77,5 +107,7 @@ struct Anime: Identifiable, Hashable {
         self.genres = genres
         self.isAdult = isAdult
         self.charaters = charaters
+        self.trailerUrl = trailerUrl
+        self.trailerThumbnail = trailerThumbnail
     }
 }

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct DetailsScreen: View {
+    @Environment(\.openURL) var openURL
     @State var viewModel: DetailsViewModel
 
     init(animeId: Int) {
@@ -16,8 +18,22 @@ struct DetailsScreen: View {
 
     var body: some View {
         VStack(spacing: -100) {
-            Header(imageUrl: viewModel.anime?.coverImage?.extraLarge)
-            DetailsSection(viewModel: viewModel)
+            if let anime = viewModel.anime {
+                Header(anime: anime)
+                    .onTapGesture {
+                        if let url = anime.trailerUrl {
+                            openURL(url)
+                        }
+                    }
+                DetailsSection(viewModel: viewModel)
+            } else {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .tint(.darkBlue)
+                } else {
+                    ContentUnavailableView("No details available", systemImage: "magnifyingglass")
+                }
+            }
         }
         .ignoresSafeArea()
         .task {
@@ -27,15 +43,5 @@ struct DetailsScreen: View {
 }
 
 #Preview {
-//    var viewModel = DetailsViewModel()
-//    let sampleAnime = Anime(
-//        id: 0
-//        , titleEnglish: "Naruto Shippuden",
-//        titleNative: "ナルト- 疾風伝",
-//        coverImage: CoverImage(
-//            large: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg",
-//            extraLarge: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/405-umT1upaBF6VG.jpg")
-//    )
-//    viewModel.anime = sampleAnime
     DetailsScreen(animeId: 102)
 }
