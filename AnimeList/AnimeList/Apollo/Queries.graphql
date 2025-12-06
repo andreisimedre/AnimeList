@@ -1,0 +1,56 @@
+query AnimeListQuery($perPage: Int, $page: Int, $status: MediaStatus, $format: MediaFormat, $sort: [MediaSort]) {
+  Page(perPage: $perPage, page: $page) {
+    pageInfo {
+      currentPage
+      hasNextPage
+    }
+    media(status: $status, format: $format, sort: $sort) {
+    ...AnimeDetails
+    }
+  }
+}
+
+fragment AnimeDetails on Media {
+    id
+    isAdult
+    averageScore
+    siteUrl
+    duration
+    genres
+    trailer {
+      id
+      site
+      thumbnail
+    }
+    title {
+        english
+        native
+    }
+    description
+    coverImage {
+        large
+        extraLarge
+    }
+}
+
+query GetAnimeById($id: Int, $page: Int, $perPage: Int) {
+  Media(id: $id) {
+    ...AnimeDetails
+    characters(page: $page, sort: [ROLE], perPage: $perPage) {
+        pageInfo {
+            currentPage
+      hasNextPage
+      total
+        }
+    nodes {
+      id
+      name {
+        full
+      }
+      image {
+        medium
+      }
+    }
+  }
+  }
+}
