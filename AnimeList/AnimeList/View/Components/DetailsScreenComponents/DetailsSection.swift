@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct DetailsSection: View {
+    @EnvironmentObject private var coordinator: Coordinator
     let viewModel: DetailsViewModel
 
     var body: some View {
@@ -43,6 +45,18 @@ struct DetailsSection: View {
 
                 InfoView(anime: viewModel.anime)
                     .padding(.vertical, 16)
+
+                Button {
+                    if let url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") {
+                        coordinator.push(page: .videoPlayer(url: url))
+                    }
+                } label: {
+                    Image(systemName: "play.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundStyle(.darkBlue)
+                }
+
                 Title(title: "Description")
                     .padding(.bottom, 16)
                 Text(viewModel.anime?.description ?? "No description available")
