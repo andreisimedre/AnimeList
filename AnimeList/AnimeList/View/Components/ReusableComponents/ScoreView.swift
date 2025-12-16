@@ -17,7 +17,7 @@ struct ScoreView: View {
                 .frame(width: 13, height: 13)
                 .foregroundStyle(.starYellow)
             Text("\(String(score ?? 0))/100 Score")
-                .font(.custom(FontNames.mulish.rawValue, size: 12))
+                .font(.custom(FontNames.mulish.rawValue, size: 12 * fontScale))
                 .foregroundColor(.grey)
         }
     }

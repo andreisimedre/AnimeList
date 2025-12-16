@@ -8,9 +8,21 @@
 import SwiftUI
 import AnimeListAPI
 
+extension View {
+    var isIpad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+
+    var fontScale: CGFloat {
+        return isIpad ? 1.6 : 1.0
+    }
+}
+
 struct PopularAnimeView: View {
     @EnvironmentObject private var coordinator: Coordinator
     @Bindable var homeViewModel: HomeViewModel
+
+    let gridItems = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -23,7 +35,7 @@ struct PopularAnimeView: View {
                     HStack {
                         Title(title: "Popular anime")
                         Spacer()
-                        CapsuleButton(title: "See more", font: Font.custom(FontNames.mulish.rawValue, size: 10), color: .grey) {
+                        CapsuleButton(title: "See more", font: Font.custom(FontNames.mulish.rawValue, size: 10 * fontScale), color: .grey) {
                             guard homeViewModel.popularHasNextPage else { return }
                             
                             Task {
@@ -35,12 +47,23 @@ struct PopularAnimeView: View {
                     .padding(.bottom, 16)
                     
                     ScrollView(.vertical) {
-                        VStack(alignment: .leading, spacing: 16) {
-                            ForEach(homeViewModel.popularAnimeList) { anime in
-                                PopularCellView(anime: anime)
-                                    .onTapGesture {
-                                        coordinator.push(page: .details(animeId: anime.id))
-                                    }
+                        if isIpad {
+                            LazyVGrid(columns: gridItems) {
+                                ForEach(homeViewModel.popularAnimeList) { anime in
+                                    PopularCellView(anime: anime)
+                                        .onTapGesture {
+                                            coordinator.push(page: .details(animeId: anime.id))
+                                        }
+                                }
+                            }
+                        } else {
+                            VStack(alignment: .leading, spacing: 16) {
+                                ForEach(homeViewModel.popularAnimeList) { anime in
+                                    PopularCellView(anime: anime)
+                                        .onTapGesture {
+                                            coordinator.push(page: .details(animeId: anime.id))
+                                        }
+                                }
                             }
                         }
                     }

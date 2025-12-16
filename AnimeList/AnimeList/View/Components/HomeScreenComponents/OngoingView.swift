@@ -19,7 +19,7 @@ struct OngoingView: View {
                     HStack {
                         Title(title: "Ongoing shows")
                         Spacer()
-                        CapsuleButton(title: "See more", font: Font.custom(FontNames.mulish.rawValue, size: 10), color: .grey) {
+                        CapsuleButton(title: "See more", font: Font.custom(FontNames.mulish.rawValue, size: 10 * fontScale), color: .grey) {
                             guard homeViewModel.ongoingHasNextPage else { return }
                             
                             Task {

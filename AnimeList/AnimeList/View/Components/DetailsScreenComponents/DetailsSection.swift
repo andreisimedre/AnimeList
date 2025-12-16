@@ -15,7 +15,7 @@ struct DetailsSection: View {
             ScrollView(.vertical) {
                 HStack(alignment: .top) {
                     Text(viewModel.anime?.titleEnglish ?? (viewModel.anime?.titleNative ?? "Unknown title"))
-                        .font(.custom(FontNames.mulish.rawValue, size: 20))
+                        .font(.custom(FontNames.mulish.rawValue, size: 20 * fontScale))
                     Spacer()
                     Image(systemName: "bookmark")
                         .resizable()
@@ -46,12 +46,12 @@ struct DetailsSection: View {
                 Title(title: "Description")
                     .padding(.bottom, 16)
                 Text(viewModel.anime?.description ?? "No description available")
-                    .font(.custom(FontNames.mulish.rawValue, size: 12))
+                    .font(.custom(FontNames.mulish.rawValue, size: 12 * fontScale))
                     .foregroundStyle(.grey)
                 HStack {
                     Title(title: "Cast")
                     Spacer()
-                    CapsuleButton(title: "See more", font: .custom(FontNames.mulish.rawValue, size: 12), color: .grey) {
+                    CapsuleButton(title: "See more", font: .custom(FontNames.mulish.rawValue, size: 12 * fontScale), color: .grey) {
                         guard viewModel.hasNextPage else { return }
 
                         Task {
@@ -77,13 +77,13 @@ struct DetailsSection: View {
                                             Image("placeholderImage")
                                                 .resizable()
                                         }
-                                        .frame(width: 74, height: 74)
+                                        .frame(width: isIpad ? 150 : 74, height: isIpad ? 150 : 74)
                                         Text(character.name ?? "Name unavailable")
-                                            .font(.custom(FontNames.mulish.rawValue, size: 12))
+                                            .font(.custom(FontNames.mulish.rawValue, size: 12  * fontScale))
                                             .foregroundStyle(.darkBlue)
                                         Spacer()
                                     }
-                                    .frame(width: 74)
+                                    .frame(width: isIpad ? 150 : 74)
                                     .id(character.id)
                                 }
                             }

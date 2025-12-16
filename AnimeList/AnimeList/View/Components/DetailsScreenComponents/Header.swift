@@ -16,6 +16,7 @@ struct Header: View {
                 AsyncImage(url: trailerImageUrl) { image in
                     image
                         .resizable()
+                        .scaledToFill()
                 } placeholder: {
                     Color.grey
                 }

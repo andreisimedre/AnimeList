@@ -18,7 +18,7 @@ struct InfoView: View {
                         .foregroundStyle(.grey)
                     Text(anime?.getDuration() ?? "0")
                 }
-                .font(.custom(FontNames.mulish.rawValue, size: 12))
+                .font(.custom(FontNames.mulish.rawValue, size: 12 * fontScale))
             }
             Spacer()
             VStack(alignment: .leading) {
@@ -27,7 +27,7 @@ struct InfoView: View {
                         .foregroundStyle(.grey)
                     Text("English")
                 }
-                .font(.custom(FontNames.mulish.rawValue, size: 12))
+                .font(.custom(FontNames.mulish.rawValue, size: 12 * fontScale))
             }
             Spacer()
             VStack(alignment: .leading) {
@@ -36,7 +36,7 @@ struct InfoView: View {
                         .foregroundStyle(.grey)
                     Text(anime?.isAdult ?? false ? "R18+" : "PG13")
                 }
-                .font(.custom(FontNames.mulish.rawValue, size: 12))
+                .font(.custom(FontNames.mulish.rawValue, size: 12 * fontScale))
             }
         }
     }
